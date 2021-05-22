@@ -1,0 +1,38 @@
+Marci design:
+
+
+Client:
+    - init: initialize pre-key bundle
+        [Bundle]
+            > IK
+            > SPK
+            > OPK - single OPK: recreate after usage? 
+
+        + bool: init
+    
+    - init_connect: initiate a connection with another Client
+        [Alice]
+            dh1 (IKa, SPKb) 
+            dh2 (EKa, IKb)
+            dh3 (EKa, SPKb)
+            dh4 (EKa, OPKb)
+
+    - connect: accept a connection with another Client
+        [Bob]
+            dh1 (SPKb, IKa) 
+            dh2 (IKb, EKa)
+            dh3 (SPKb, EKa)
+            dh4 (OPKb, EKa)
+
+    - init_ratchets: initalize Symmetric and DH init_ratchets
+
+    - dh_next: Turn the DH Ratchet
+
+    - send: send a message to another Client
+
+    - recv: receive a message from another client 
+
+
+========================================================================
+
+

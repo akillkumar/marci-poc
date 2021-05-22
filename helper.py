@@ -4,6 +4,12 @@
 '''
 
 import random
+import base64
+
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+
 encoding = 'utf-8'
 
 class COLORS:
@@ -145,3 +151,22 @@ def get_coprime(N):
 		x = random.randrange (N)
 		if gcd (x, N) == 1:
 			return x
+
+
+
+def b64 (msg):
+    # too much of a pain to write this every time
+    return base64.encodebytes(msg).decode('utf-8').strip()
+
+def hkdf (input, length):
+    hkdf  = HKDF (algorithm = hashes.SHA256(), length = length, salt = b'', info = b'', backend = default_backend())
+    return hkdf.derive (input)
+
+def pad(msg):
+    # pkcs7 padding
+    num = 16 - (len(msg) % 16)
+    return msg + bytes([num] * num)
+
+def unpad(msg):
+    # remove pkcs7 padding
+    return msg[:-msg[-1]]
